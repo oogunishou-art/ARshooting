@@ -40,7 +40,7 @@ button{font-family:inherit;cursor:pointer}
   background:radial-gradient(circle at 25% 8%,#5a36c4 0%,transparent 50%),radial-gradient(circle at 85% 95%,#c2306f66 0%,transparent 50%),linear-gradient(160deg,var(--bg1),var(--bg2))}
 .screen.show{display:flex}
 .topbar{width:100%;max-width:760px;display:flex;align-items:center;gap:10px}
-.topbar h2{margin:0;font-size:24px;flex:1;text-align:center;padding-right:70px}
+.topbar h2{margin:0;font-size:clamp(18px,5.4vw,24px);flex:1;text-align:center;padding-right:60px;white-space:nowrap}
 .lead{margin:0;max-width:560px;text-align:center;line-height:1.6;font-weight:500}
 .note{font-size:13px;opacity:.75;text-align:center;margin:0;max-width:520px;line-height:1.6}
 
@@ -78,7 +78,14 @@ button{font-family:inherit;cursor:pointer}
 
 /* stages */
 .seg{display:flex;background:rgba(255,255,255,.14);border-radius:999px;padding:4px;gap:4px}
-.seg button{border:none;background:transparent;color:#fff;font-weight:800;font-size:15px;padding:8px 14px;border-radius:999px}
+.seg button{border:none;background:transparent;color:#fff;font-weight:800;font-size:15px;padding:8px 12px;border-radius:999px;white-space:nowrap}
+#diffSeg button{font-size:14px;padding:8px 10px}
+.diffNote{font-size:13px;opacity:.85;text-align:center;margin:-6px 0 0}
+.faceCard select{font-family:inherit;font-weight:800;font-size:13px;border-radius:999px;border:none;padding:5px 8px;background:rgba(255,255,255,.9);color:var(--ink);max-width:120px}
+.bossPrev{display:flex;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,.18);border-radius:18px;padding:8px 12px}
+.bossPrev img{width:64px;height:64px;border-radius:50%;border:4px solid var(--yellow);object-fit:cover;box-shadow:0 0 0 3px #ff9d2f}
+.bossPrev b{display:block;font-size:17px}
+.bossPrev small{font-size:12px;opacity:.85}
 .seg button.on{background:#fff;color:var(--ink)}
 .stageList{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;width:100%;max-width:760px}
 .stageCard{position:relative;border:none;border-radius:22px;padding:14px 14px 12px;color:#fff;text-align:left;background:linear-gradient(160deg,var(--c),var(--c2));
@@ -233,8 +240,9 @@ button{font-family:inherit;cursor:pointer}
 <section id="stages" class="screen">
   <div class="topbar"><button class="btn small gray" data-go="title">← もどる</button><h2>ステージ を えらぶ</h2></div>
   <div class="seg" id="diffSeg">
-    <button data-d="easy">かんたん</button><button data-d="normal">ふつう</button><button data-d="hard">むずかしい</button>
+    <button data-d="easy">かんたん</button><button data-d="normal">ふつう</button><button data-d="hard">むずかしい</button><button data-d="extreme">げきむず</button>
   </div>
+  <p class="diffNote" id="diffNote"></p>
   <div class="stageList" id="stageList"></div>
   <p class="note" id="faceHint"></p>
 </section>
@@ -242,7 +250,7 @@ button{font-family:inherit;cursor:pointer}
 <!-- FACES -->
 <section id="faces" class="screen">
   <div class="topbar"><button class="btn small gray" data-go="title">← もどる</button><h2>かお ずかん</h2></div>
-  <p class="lead">てき に なる かお を とうろく してね。<br>👑 を つけた かお は <b>ボス</b> に なるよ！</p>
+  <p class="lead">とうろく した かお は <b>ボス</b> と <b>ちゅうボス</b> に なるよ！<br>どの ステージ の ボス に するか えらべるよ。</p>
   <div class="faceGrid" id="faceGrid"></div>
   <button class="btn pink" id="addFaceBtn">📷 しゃしん を えらぶ・とる</button>
   <input type="file" id="fileIn" accept="image/*" multiple class="hidden">
@@ -254,6 +262,7 @@ button{font-family:inherit;cursor:pointer}
   <div class="topbar"><button class="btn small gray" data-go="stages">← もどる</button><h2 id="rdStage">ステージ 1</h2></div>
   <div class="readyCard">
     <h3 id="rdName">はじめの へや</h3>
+    <div class="bossPrev" id="rdBoss"></div>
     <ul class="mission" id="rdMission"></ul>
     <div class="enemyIntro" id="rdEnemies"></div>
   </div>
@@ -279,6 +288,8 @@ button{font-family:inherit;cursor:pointer}
   <h3>⚙ せってい</h3>
   <div class="setRow"><div><b>ねらいかた</b><small>「うごかす」＝ スマホ を うごかして まんなか の ねらい を あわせる。「なぞる」＝ がめん を ゆび で なぞって むき を かえる</small></div>
     <div class="seg" data-set="gyro"><button data-v="1">うごかす</button><button data-v="0">なぞる</button></div></div>
+  <div class="setRow"><div><b>てき が でる はんい</b><small>「せまい」ほど スマホ を うごかす のが すくなく なって、め が まわりにくいよ</small></div>
+    <div class="seg" data-set="zone"><button data-v="small">せまい</button><button data-v="normal">ふつう</button><button data-v="wide">ひろい</button></div></div>
   <div class="setRow"><div><b>カメラ</b><small>「なし」だと バーチャル の へや で あそぶよ</small></div>
     <div class="seg" data-set="camera"><button data-v="back">うしろ</button><button data-v="front">まえ</button><button data-v="none">なし</button></div></div>
   <div class="setRow"><div><b>おと</b></div><div class="seg" data-set="sound"><button data-v="1">ON</button><button data-v="0">OFF</button></div></div>
@@ -344,7 +355,7 @@ const KEY='kkshooter.v1', FKEY='kkshooter.faces.v1';
 function loadJSON(k,def){try{const v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch(e){return def;}}
 function saveJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){return false;}}
 const PCOLORS=['#ff5fa2','#36c6ff','#3fcf6a','#ff9d2f','#9b6bff','#e8344e'];
-const DEF_SETTINGS={gyro:true,camera:'back',sound:true,vibe:true,diff:'normal'};
+const DEF_SETTINGS={gyro:true,camera:'back',sound:true,vibe:true,diff:'normal',zone:'normal'};
 const save=Object.assign({players:[{id:'p1',name:'プレイヤー1',color:PCOLORS[0]}],current:'p1',records:{}},loadJSON(KEY,{}));
 save.settings=Object.assign({},DEF_SETTINGS,save.settings||{});
 if(!save.players||!save.players.length){save.players=[{id:'p1',name:'プレイヤー1',color:PCOLORS[0]}];}
@@ -429,6 +440,7 @@ const Snd={
   beep(hi){this.tone(hi?1320:880,hi?.35:.16,'square',.15);},
   warn(){for(let i=0;i<4;i++){this.tone(440,.25,'sawtooth',.13,880,i*.5);this.tone(880,.25,'sawtooth',.11,440,i*.5+.25);}},
   bossHit(){this.nz(.14,.4,650);this.tone(210,.12,'square',.18,120);},
+  midIn(){this.tone(180,.45,'sawtooth',.2,80);this.tone(660,.3,'square',.12,1320,.25);this.tone(990,.25,'square',.1,1980,.45);},
   bossDown(){for(let i=0;i<7;i++){this.nz(.45,.45,250+i*180,i*.16);this.tone(120+i*30,.3,'sawtooth',.12,40,i*.16);}},
   clear(){const n=[523,659,784,1047,784,1047],d=[0,.12,.24,.36,.56,.68];n.forEach((f,i)=>this.tone(f,i===5?.7:.15,'square',.14,null,d[i]));},
   timeup(){[784,659,523,392].forEach((f,i)=>this.tone(f,.28,'triangle',.22,null,i*.2));},
@@ -498,19 +510,27 @@ async function faceCanvas(f){if(faceCache.has(f.id))return faceCache.get(f.id);c
    GAME DATA
    ========================================================= */
 const ETYPES={
-  // speed は 1びょう に うごく かくど（ど）。まんなか の ねらい で おいかけられる はやさ に している
-  puff:{name:'ふわりん',hp:1,r:.42,pts:100,speed:6, color:'#ff7eb6',shoot:[5,9]},
-  zig: {name:'ブンブン',hp:1,r:.40,pts:150,speed:12,color:'#ffd23f',shoot:[4,8]},
-  tank:{name:'カッチン',hp:2,r:.48,pts:300,speed:5, color:'#9aa7c7',shoot:[4,7]},
-  mini:{name:'チビロケ',hp:1,r:.32,pts:200,speed:14,color:'#5be3ff',shoot:[6,10]},
+  // speed：1びょう に うごく かくど（ど）。しょうがくせい でも おいかけられる ゆっくり め
+  // faces：つうじょう の てき は オリジナル アイコン（かおしゃしん は ボス・ちゅうボス よう）
+  puff:{name:'ふわりん',hp:1,r:.32,pts:100, speed:3,  color:'#ff7eb6',shoot:[7,12],faces:[0,5]},
+  zig: {name:'ブンブン',hp:1,r:.30,pts:150, speed:6,  color:'#ffd23f',shoot:[6,11],faces:[2,3]},
+  tank:{name:'カッチン',hp:2,r:.36,pts:300, speed:2.5,color:'#9aa7c7',shoot:[6,10],faces:[4]},
+  mini:{name:'チビロケ',hp:1,r:.25,pts:200, speed:7,  color:'#5be3ff',shoot:[8,13],faces:[1]},
+  mid: {name:'ちゅうボス',hp:4,r:.55,pts:1000,speed:2.5,color:'#ffc21f',shoot:[4,7]},
 };
 const STAGES=[
-  {name:'はじめの へや',     types:['puff'],                         norma:8, time:80, maxAlive:3,bossHp:12,boss:'crown',c:'#ff5fa2',c2:'#c2306f',shootMul:1.6, spread:70},
-  {name:'ぐるぐる たいせん',  types:['puff','zig'],                   norma:10,time:85, maxAlive:4,bossHp:16,boss:'horn', c:'#ff9d2f',c2:'#c0601a',shootMul:1.3, spread:90},
-  {name:'カチカチ こうげき',  types:['puff','zig','tank'],            norma:12,time:90, maxAlive:4,bossHp:20,boss:'mecha',c:'#36b9ff',c2:'#1a6fb0',shootMul:1.15,spread:110},
-  {name:'チビ だいしゅうごう',types:['puff','zig','tank','mini','mini'],norma:14,time:95,maxAlive:5,bossHp:24,boss:'wing', c:'#3fcf6a',c2:'#1f8a44',shootMul:1.0, spread:130,guards:2},
-  {name:'さいごの たたかい',  types:['puff','zig','tank','mini'],     norma:16,time:110,maxAlive:6,bossHp:30,boss:'king', c:'#9b6bff',c2:'#5a34b0',shootMul:.9,  spread:150,guards:3},
+  {name:'はじめの へや',     types:['puff'],                    norma:12,time:90, maxAlive:5,bossHp:14,boss:'crown',c:'#ff5fa2',c2:'#c2306f',shootMul:1.5, mids:1},
+  {name:'ぐるぐる たいせん',  types:['puff','puff','zig'],       norma:15,time:95, maxAlive:6,bossHp:18,boss:'horn', c:'#ff9d2f',c2:'#c0601a',shootMul:1.3, mids:1},
+  {name:'カチカチ こうげき',  types:['puff','zig','tank'],       norma:18,time:100,maxAlive:6,bossHp:22,boss:'mecha',c:'#36b9ff',c2:'#1a6fb0',shootMul:1.15,mids:1},
+  {name:'チビ だいしゅうごう',types:['puff','zig','tank','mini'],norma:20,time:105,maxAlive:7,bossHp:26,boss:'wing', c:'#3fcf6a',c2:'#1f8a44',shootMul:1.05,mids:2,guards:2},
+  {name:'さいごの たたかい',  types:['puff','zig','tank','mini'],norma:24,time:120,maxAlive:8,bossHp:34,boss:'king', c:'#9b6bff',c2:'#5a34b0',shootMul:1.0, mids:2,guards:3},
 ];
+// てき が でる はんい（スマホ を うごかす おおきさ）。スタート した むき が まんなか
+const ZONES={
+  small: {label:'せまい',spread:22,up:14,down:8},
+  normal:{label:'ふつう',spread:35,up:18,down:10},
+  wide:  {label:'ひろい',spread:60,up:28,down:12},
+};
 const BOSSNAMES={crown:'キングかお',horn:'ツノゴン',mecha:'メカヘッド',wing:'バサバサ',king:'だいまおう'};
 const BOSSPAT={
   crown:['move','shoot','move','summon'],
@@ -519,11 +539,15 @@ const BOSSPAT={
   wing:['move','spread','dash','shoot','summon','dash'],
   king:['move','spread','dash','shoot','summon','spread','dash'],
 };
+// norma：たおす かず の ばいりつ／alive：どうじ に でる かず の ふやし／maxB：どうじ に とんでくる たま の かず
+// pad：ねらい の あまさ（px）／bs：ボス が いちど に うつ たま
 const DIFF={
-  easy:  {label:'かんたん',  time:20, norma:-2,hp:.75,speed:.75,shoot:1.5,bullet:1.0,pad:30,penalty:2,clock:7},
-  normal:{label:'ふつう',    time:0,  norma:0, hp:1,  speed:1,  shoot:1,  bullet:1.35,pad:18,penalty:3,clock:5},
-  hard:  {label:'むずかしい',time:-10,norma:2, hp:1.3,speed:1.3,shoot:.75,bullet:1.75,pad:8, penalty:4,clock:4},
+  easy:   {label:'かんたん',  time:20, norma:.8,  alive:-1,hp:.7, speed:.7, shoot:1.6,bullet:.8, maxB:1,pad:38,penalty:1,clock:8,mid:.7,bs:2},
+  normal: {label:'ふつう',    time:0,  norma:1,   alive:0, hp:1,  speed:1,  shoot:1.2,bullet:1.0,maxB:2,pad:28,penalty:2,clock:6,mid:1, bs:3},
+  hard:   {label:'むずかしい',time:-5, norma:1.15,alive:1, hp:1.25,speed:1.5,shoot:.9,bullet:1.3,maxB:3,pad:16,penalty:3,clock:5,mid:1.3,bs:3},
+  extreme:{label:'げきむず',  time:-15,norma:1.3, alive:2, hp:1.5,speed:2.1,shoot:.7, bullet:1.65,maxB:4,pad:8,penalty:4,clock:4,mid:1.6,bs:4},
 };
+function normaFor(i){return Math.max(6,Math.round(STAGES[i].norma*(DIFF[save.settings.diff]||DIFF.normal).norma));}
 
 /* =========================================================
    CAMERA & SENSOR
@@ -642,17 +666,19 @@ const G={active:false,paused:false,state:'idle',stageIdx:0,gyro:false,camOn:fals
   enemies:[],bullets:[],items:[],parts:[],texts:[],shots:[],boss:null,
   spawnT:0,itemT:0,super:0,shake:0,flash:0,flashCol:'255,40,70',timeScale:1,slowT:0,
   yaw0:0,b:{th0:-1,th1:1,ph0:-.3,ph1:.3},viewH:.5,viewV:.5,lastShot:0,aim:0,recoil:0,
-  facePool:[],bossPool:[],hint:{},cd:0,warnT:0,ended:false,
-  look:{yaw:0,pitch:8*D2R},fireHeld:0,fireFrom:null,lock:null};
+  hint:{},cd:0,warnT:0,ended:false,
+  look:{yaw:0,pitch:8*D2R},fireHeld:0,fireFrom:null,lock:null,pitch0:0,midsSpawned:0,bossFaceId:null,bossFace:null,typeFaces:{},midPool:[]};
 const S_=()=>STAGES[G.stageIdx];
 const D_=()=>DIFF[save.settings.diff]||DIFF.normal;
 
 function setBounds(atStart){
   computeFocal();
-  if(atStart){updateCamera();G.yaw0=camYaw();}
-  // スタート した とき の むき を まんなか に して、ひだり みぎ に てき が ひろがる
-  const sp=S_().spread*D2R;
-  G.b={th0:G.yaw0-sp,th1:G.yaw0+sp,ph0:-12*D2R,ph1:30*D2R};
+  if(atStart){updateCamera();G.yaw0=camYaw();G.pitch0=clamp(camPitch(),-15*D2R,15*D2R);}
+  // スタート した とき の むき を まんなか に して、その まわり の せまい はんい に てき を だす
+  //（スマホ を おおきく うごかさなくて いい ＝ め が まわりにくい）
+  const Z=ZONES[save.settings.zone]||ZONES.normal;
+  const sp=(Z.spread+G.stageIdx*3)*D2R;
+  G.b={th0:G.yaw0-sp,th1:G.yaw0+sp,ph0:G.pitch0-Z.down*D2R,ph1:G.pitch0+Z.up*D2R};
 }
 const clampTh=th=>clamp(th,G.b.th0,G.b.th1);
 const clampPh=ph=>clamp(ph,G.b.ph0,G.b.ph1);
@@ -660,28 +686,43 @@ const bossPh=ph=>clampPh(ph);
 function relCamYaw(){return G.yaw0+wrap(camYaw()-G.yaw0);}
 
 /* ---------- spawn ---------- */
+function spawnPos(inView){
+  // いま みている ところ の ちかく に でやすく、ほか の てき と かさならない ばしょ を さがす
+  let best=null,bestD=-1;
+  for(let k=0;k<7;k++){
+    let th,ph;
+    if(inView||Math.random()<.7){th=relCamYaw()+rand(-1,1)*Math.max(G.viewH,.25)*.75;ph=camPitch()+rand(-1,1)*G.viewV*.45;}
+    else{th=rand(G.b.th0,G.b.th1);ph=rand(G.b.ph0,G.b.ph1);}
+    th=clampTh(th);ph=clampPh(ph);
+    let md=9;for(const e of G.enemies){if(e.state==='flee')continue;const d=Math.hypot((e.th-th)*Math.cos(ph),e.ph-ph);if(d<md)md=d;}
+    if(md>bestD){bestD=md;best=[th,ph];}
+    if(md>.16)break;
+  }
+  return best;
+}
 function spawnEnemy(type,opt={}){
   const T=ETYPES[type],S=S_(),D=D_();
   let th,ph;
-  if(opt.th!=null){th=opt.th;ph=opt.ph;}
-  else if(opt.inView||Math.random()<.5){th=relCamYaw()+rand(-1,1)*Math.max(G.viewH,.25)*.8;ph=camPitch()+rand(-1,1)*G.viewV*.5;}
-  else{th=rand(G.b.th0,G.b.th1);ph=rand(G.b.ph0,G.b.ph1);}
-  const e={type,th:clampTh(th),ph:clampPh(ph),d:rand(3.8,5.5),hp:T.hp,r:T.r,t:0,seed:Math.random()*10,
-    state:'warp',warp:0,scale:0,face:pick(G.facePool),flash:0,alpha:1,dir:Math.random()<.5?-1:1,minion:!!opt.minion,
-    shootT:rand(2.2,T.shoot[1])*S.shootMul*D.shoot};
+  if(opt.th!=null){th=opt.th;ph=opt.ph;}else[th,ph]=spawnPos(opt.inView);
+  const face=type==='mid'?pick(G.midPool):pick(G.typeFaces[type]);
+  const e={type,th:clampTh(th),ph:clampPh(ph),d:type==='mid'?rand(4.8,5.6):rand(3.8,5.5),hp:T.hp,maxHp:T.hp,r:T.r,t:0,seed:Math.random()*10,
+    state:'warp',warp:0,scale:0,face,flash:0,alpha:1,dir:Math.random()<.5?-1:1,minion:!!opt.minion,
+    shootT:rand(3,T.shoot[1])*S.shootMul*D.shoot};
+  if(type==='mid'){e.hp=e.maxHp=Math.max(2,Math.round((3+G.stageIdx)*D.mid));}
   newTarget(e);G.enemies.push(e);Snd.spawn();
   return e;
 }
 function newTarget(e){
   let dth,dph;
   switch(e.type){
-    case 'zig': e.dir=-e.dir;dth=e.dir*rand(10,18);dph=rand(-6,6);break;
-    case 'mini':dth=rand(-8,8);dph=rand(-6,6);break;
-    case 'tank':dth=rand(-8,8);dph=rand(-4,4);break;
-    default:dth=rand(-12,12);dph=rand(-6,6);
+    case 'zig': e.dir=-e.dir;dth=e.dir*rand(8,15);dph=rand(-5,5);break;
+    case 'mini':dth=rand(-7,7);dph=rand(-5,5);break;
+    case 'tank':dth=rand(-6,6);dph=rand(-3,3);break;
+    case 'mid': dth=rand(-8,8);dph=rand(-3,3);break;
+    default:dth=rand(-9,9);dph=rand(-5,5);
   }
   e.tth=clampTh(e.th+dth*D2R);e.tph=clampPh(e.ph+dph*D2R);
-  e.td=clamp(e.d+rand(-1,1),e.type==='tank'?2.9:3.4,6);
+  e.td=e.type==='mid'?clamp(e.d+rand(-.5,.5),4.6,5.8):clamp(e.d+rand(-1,1),3.8,6);
 }
 function moveToward(o,degPerSec,dt){
   const dx=(o.tth-o.th)*Math.cos(o.ph),dy=o.tph-o.ph,dist=Math.hypot(dx,dy);
@@ -704,12 +745,15 @@ async function startGame(idx){
     spawnT:0,itemT:16,super:0,shake:0,flash:0,timeScale:1,slowT:0,lastShot:-1,aim:0,recoil:0,hint:{},ended:false,paused:false,
     fireFrom:null,lock:null,lockObj:null,lockT:0});
   releaseFire();
-  G.timeLeft=S.time+D.time;G.norma=Math.max(4,S.norma+D.norma);G.bossHp=Math.round(S.bossHp*D.hp);
+  G.timeLeft=S.time+D.time;G.norma=normaFor(idx);G.bossHp=Math.round(S.bossHp*D.hp);G.midsSpawned=0;
   ensureBuiltin();
-  const normal=[],boss=[];
-  for(const f of faces){try{const cv=await faceCanvas(f);(f.boss?boss:normal).push(cv);}catch(e){}}
-  G.facePool=normal.length?normal:(boss.length?boss:builtinFaces);
-  G.bossPool=boss.length?boss:(normal.length?normal:[builtinBoss]);
+  // つうじょう の てき＝オリジナル アイコン、かおしゃしん＝ボス と ちゅうボス
+  G.typeFaces={};for(const k in ETYPES)if(ETYPES[k].faces)G.typeFaces[k]=ETYPES[k].faces.map(i=>builtinFaces[i]);
+  const photos=[];let bossCv=null;
+  for(const f of faces){try{const cv=await faceCanvas(f);photos.push(cv);if(f.id===G.bossFaceId)bossCv=cv;}catch(e){}}
+  G.bossFace=bossCv||(photos.length?pick(photos):builtinBoss);
+  const others=photos.filter(c=>c!==G.bossFace);
+  G.midPool=others.length?others:(photos.length?photos:[builtinBoss]);
   enterGameView();
   resize();setBounds(true);
   $('#hStage').textContent='ステージ '+(idx+1);
@@ -741,7 +785,7 @@ function createBoss(){
   // よこもち など たかさ が せまい ときは ボス を すこし とおく に して はみださない ように
   const availH=Math.max(160,H-safe.t-safe.b-170);
   const td=clamp(Math.max(3.4*cam.focal/availH,cam.focal/(.24*Math.min(W,H))),5.2,9);
-  const b={th,ph:bossPh(ph),tth:th,tph:bossPh(ph),d:12,td,hp:G.bossHp,maxHp:G.bossHp,r:1,t:0,state:'enter',st:0,face:pick(G.bossPool),style:S.boss,flash:0,
+  const b={th,ph:bossPh(ph),tth:th,tph:bossPh(ph),d:12,td,hp:G.bossHp,maxHp:G.bossHp,r:1,t:0,state:'enter',st:0,face:G.bossFace||builtinBoss,style:S.boss,flash:0,
     rage:false,pat:BOSSPAT[S.boss],pi:0,fired:0,guards:[],barrierT:0};
   const ng=S.guards||0;
   for(let i=0;i<ng;i++) b.guards.push({a:i/ng*TAU,alive:true,p:null});
@@ -754,10 +798,10 @@ function nextBossAction(b){
   const p=b.p;
   const visible=p&&p.vis;
   if((b.state==='shoot'||b.state==='spread')&&!visible){b.state='come';}
-  if(b.state==='move'){b.tth=clampTh(b.th+rand(-25,25)*D2R);b.tph=bossPh(b.ph+rand(-8,8)*D2R);}
-  if(b.state==='dash'){const s=Math.random()<.5?-1:1;b.tth=clampTh(b.th+s*rand(25,40)*D2R);b.tph=bossPh(b.ph+rand(-10,10)*D2R);}
+  if(b.state==='move'){b.tth=clampTh(b.th+rand(-14,14)*D2R);b.tph=bossPh(b.ph+rand(-5,5)*D2R);}
+  if(b.state==='dash'){const s=Math.random()<.5?-1:1;b.tth=clampTh(b.th+s*rand(12,22)*D2R);b.tph=bossPh(b.ph+rand(-6,6)*D2R);}
   if(b.state==='come'){b.tth=clampTh(relCamYaw());b.tph=bossPh(camPitch());}
-  if(b.state==='shoot') b.nShots=(b.rage?4:3)+(G.stageIdx>=3?1:0);
+  if(b.state==='shoot') b.nShots=D_().bs+(b.rage?1:0);
 }
 function bossDefeated(){
   const b=G.boss;b.state='dying';b.st=0;b.burst=false;G.state='bossdown';G.bullets.length=0;
@@ -800,21 +844,25 @@ function killEnemy(e,silent){
   if(e.dead)return;e.dead=true;
   const p=e.p||{sx:W/2,sy:H/2,sr:40};
   const T=ETYPES[e.type];
-  shards(p.sx,p.sy,Math.max(10,p.sr),e.face);burst(p.sx,p.sy,T.color,16,320);ring(p.sx,p.sy,'#fff',p.sr*.6,p.sr*2.2,.35);
+  const mid=e.type==='mid';
+  shards(p.sx,p.sy,Math.max(10,p.sr),e.face,mid?12:8,mid?420:300);burst(p.sx,p.sy,T.color,mid?30:16,mid?420:320);ring(p.sx,p.sy,'#fff',p.sr*.6,p.sr*2.2,.35);
   if(silent){addScore(T.pts);return;}
   G.kills++;
   if(G.comboT>0)G.combo++;else G.combo=1;G.comboT=2.6;G.maxCombo=Math.max(G.maxCombo,G.combo);
   const bonus=Math.min(500,(G.combo-1)*50);const pts=T.pts+bonus;addScore(pts);
-  floatText(p.sx,p.sy-p.sr*.4,'+'+pts,'#fff36b',28);
-  if(G.combo>=2)floatText(p.sx,p.sy+p.sr*.7,G.combo+'コンボ！','#7ff3ff',22);
-  Snd.pop();vibe(25);
-  if(Math.random()<.11&&G.items.length<2) spawnItem(Math.random()<.6?'clock':'star',e.th,e.ph+.05);
+  floatText(p.sx,p.sy-p.sr*.4,'+'+pts,'#fff36b',mid?36:28);
+  if(mid){floatText(p.sx,p.sy+p.sr*.6,'ちゅうボス やっつけた！','#ffe066',24);Snd.item();G.shake=Math.max(G.shake,.15);spawnItem(Math.random()<.5?'clock':'star',e.th,e.ph+.04);}
+  else if(G.combo>=2)floatText(p.sx,p.sy+p.sr*.7,G.combo+'コンボ！','#7ff3ff',22);
+  Snd.pop();vibe(mid?[60,40,60]:25);
+  if(!mid&&Math.random()<.09&&G.items.length<2) spawnItem(Math.random()<.6?'clock':'star',e.th,e.ph+.05);
   if(G.state==='play'&&G.kills>=G.norma) startWarn();
 }
 function hitEnemy(e,dmg){
   e.hp-=dmg;e.flash=1;
   if(e.hp<=0){killEnemy(e);return;}
-  const p=e.p;Snd.clink();vibe(15);
+  const p=e.p;
+  if(e.type==='mid'){Snd.bossHit();vibe(15);addScore(50);floatText(p.sx+rand(-.5,.5)*p.sr,p.sy-p.sr*.8,'+50','#fff36b',22);burst(p.sx,p.sy,'#ffd23f',6,200);return;}
+  Snd.clink();vibe(15);
   if(e.type==='tank'){G.parts.push({k:'helmet',x:p.sx,y:p.sy-p.sr*.6,vx:rand(-120,120),vy:-380,life:1,max:1,R:p.sr,rot:0,vr:rand(-8,8),g:900});
     floatText(p.sx,p.sy-p.sr,'カキーン！','#dfe7ff',22);addScore(50);}
 }
@@ -951,7 +999,7 @@ function update(dt){
       const prev=Math.ceil(G.cd);G.cd-=dt;const now=Math.ceil(G.cd);
       if(now!==prev){
         if(now>0){centerMsg(String(now));Snd.beep(false);}
-        else{centerMsg('スタート！','small');Snd.beep(true);setBounds(true);G.state='play';spawnEnemy(S.types[0],{inView:true});G.spawnT=1.4;
+        else{centerMsg('スタート！','small');Snd.beep(true);setBounds(true);G.state='play';spawnEnemy(S.types[0],{inView:true});spawnEnemy(S.types[0],{inView:true});G.spawnT=.8;
           setTimeout(()=>{if(G.state==='play')centerMsg('');},800);}
       }
       break;}
@@ -966,7 +1014,14 @@ function update(dt){
   if(G.state==='play'){
     G.spawnT-=dt;
     const alive=G.enemies.filter(e=>e.state==='live'||e.state==='warp').length;
-    if(G.spawnT<=0&&alive<S.maxAlive){spawnEnemy(pick(S.types));G.spawnT=rand(.9,1.9)/Math.max(.8,D.speed);}
+    if(G.spawnT<=0&&alive<S.maxAlive+D.alive){spawnEnemy(pick(S.types));G.spawnT=rand(.45,1.1);}
+    // とちゅう で しゃしん の「ちゅうボス」が でる
+    const nm=S.mids||0;
+    if(G.midsSpawned<nm&&G.kills>=Math.floor(G.norma*(G.midsSpawned+1)/(nm+1))){
+      G.midsSpawned++;const m=spawnEnemy('mid',{inView:true});
+      Snd.midIn();floatText(W/2,H*.3,'ちゅうボス が きた！','#ffe066',30);vibe([60,40,60]);
+      m.shootT=rand(3,5)*D.shoot;
+    }
   }
   if(live){
     if(G.comboT>0){G.comboT-=dt;if(G.comboT<=0)G.combo=0;}
@@ -995,7 +1050,10 @@ function updateEnemies(dt,live){
     if(e.state==='flee'){e.d+=5*dt;e.ph+=.5*dt;e.alpha=clamp(1-(e.d-5)/6,0,1);if(e.d>12)e.dead=true;continue;}
     if(moveToward(e,T.speed*spMul,dt))newTarget(e);
     e.d+=clamp(e.td-e.d,-.8*dt,.8*dt);
-    if(live){e.shootT-=dt;if(e.shootT<=0){if(e.p&&e.p.vis)fireBullet(e.th,e.ph-.02,e.d-e.r*.6);e.shootT=rand(T.shoot[0],T.shoot[1])*S.shootMul*D.shoot;}}
+    if(live){e.shootT-=dt;if(e.shootT<=0){
+      // どうじ に とんでくる たま の かず に じょうげん（かんたん は 1こ）
+      if(e.p&&e.p.vis&&G.bullets.length<D.maxB)fireBullet(e.th,e.ph-.02,e.d-e.r*.6);
+      e.shootT=rand(T.shoot[0],T.shoot[1])*(e.type==='mid'?1:S.shootMul)*D.shoot;}}
   }
   G.enemies=G.enemies.filter(e=>!e.dead);
 }
@@ -1010,19 +1068,19 @@ function updateItems(dt){
 function updateBoss(dt){
   const b=G.boss;if(!b)return;
   b.t+=dt;b.st+=dt;b.flash=Math.max(0,b.flash-dt*5);
-  const sp=(b.rage?1.45:1)*D_().speed*(1+.04*G.stageIdx);
+  const sp=(b.rage?1.25:1)*D_().speed*(1+.04*G.stageIdx);
   for(const g of b.guards){g.a+=(b.rage?2.1:1.3)*dt;if(!g.alive&&b.state!=='dying'){g.respawn-=dt;if(g.respawn<=0){g.alive=true;}}}
   b.d+=clamp(b.td-b.d,-1.5*dt,1.5*dt);
   switch(b.state){
     case 'enter':b.d=lerp(b.d,b.td,1-Math.exp(-2.5*dt));if(b.st>1.6)nextBossAction(b);break;
-    case 'move':moveToward(b,10*sp,dt);if(b.st>2.3/(b.rage?1.3:1))nextBossAction(b);break;
-    case 'come':if(moveToward(b,26*sp,dt)||b.st>2.5)nextBossAction(b);break;
-    case 'dash':if(moveToward(b,40*sp,dt)||b.st>1.8)nextBossAction(b);break;
+    case 'move':moveToward(b,5*sp,dt);if(b.st>2.6/(b.rage?1.2:1))nextBossAction(b);break;
+    case 'come':if(moveToward(b,14*sp,dt)||b.st>2.5)nextBossAction(b);break;
+    case 'dash':if(moveToward(b,20*sp,dt)||b.st>1.8)nextBossAction(b);break;
     case 'shoot':
       if(b.fired<b.nShots&&b.st>.3+.38*b.fired){fireBullet(b.th+rand(-4,4)*D2R,b.ph-.06+rand(-.04,.04),b.d-.9,1.05);b.fired++;}
       if(b.st>.3+.38*b.nShots+.6)nextBossAction(b);break;
     case 'spread':
-      if(!b.fired&&b.st>.55){b.fired=1;const n=b.rage?5:3;const w=8;for(let i=0;i<n;i++){const o=(i-(n-1)/2)*w*D2R;fireBullet(b.th+o,b.ph-.05,b.d-.9,.9);}}
+      if(!b.fired&&b.st>.55){b.fired=1;const n=D_().bs+(b.rage?1:0);const w=8;for(let i=0;i<n;i++){const o=(i-(n-1)/2)*w*D2R;fireBullet(b.th+o,b.ph-.05,b.d-.9,.9);}}
       if(b.st>1.6)nextBossAction(b);break;
     case 'summon':
       if(!b.fired&&b.st>.6){b.fired=1;const n=b.rage?3:2;const types=G.stageIdx>=3?['mini','puff']:['puff'];
@@ -1105,7 +1163,7 @@ function render(){
   ctx.setTransform(canvas.width/W,0,0,canvas.height/H,0,0);
   ctx.clearRect(0,0,W,H);
   ctx.save();
-  if(G.shake>0){const s=G.shake*18;ctx.translate(rand(-s,s),rand(-s,s));}
+  if(G.shake>0){const s=G.shake*9;ctx.translate(rand(-s,s),rand(-s,s));}
   if(!G.camOn)drawVirtualRoom();
   // world objects (far → near)
   const list=[];
@@ -1148,9 +1206,22 @@ function drawEnemy(c,e,x,y,R){
     c.fillStyle=g;c.beginPath();c.moveTo(-R*.38,R*.8);c.quadraticCurveTo(0,R*(1.2+1.3*fl),R*.38,R*.8);c.closePath();c.fill();
     c.fillStyle='#36c6ff';c.strokeStyle='#2b2350';c.lineWidth=strokeW(R,.06);
     for(const s of [-1,1]){c.beginPath();c.moveTo(s*R*.7,R*.35);c.lineTo(s*R*1.25,R*1.05);c.lineTo(s*R*.45,R*.9);c.closePath();c.fill();c.stroke();}}
+  if(e.type==='mid'){ // ちゅうボス：きいろ の オーラ と ちいさな かんむり
+    const gl=c.createRadialGradient(0,0,R*.9,0,0,R*1.6);gl.addColorStop(0,'rgba(255,210,63,.55)');gl.addColorStop(1,'rgba(255,210,63,0)');
+    c.fillStyle=gl;c.beginPath();c.arc(0,0,R*1.6,0,TAU);c.fill();
+    c.fillStyle='#fff4d6';c.strokeStyle='#2b2350';c.lineWidth=strokeW(R,.05);
+    for(const s of [-1,1]){c.beginPath();c.moveTo(s*R*1.0,-R*.1);c.lineTo(s*R*1.45,-R*.35+Math.sin(t*10)*R*.08);c.lineTo(s*R*1.05,R*.25);c.closePath();c.fill();c.stroke();}
+  }
   c.fillStyle=T.color;c.strokeStyle='#2b2350';c.lineWidth=strokeW(R);
   c.beginPath();c.arc(0,0,R*1.1,0,TAU);c.fill();c.stroke();
   c.drawImage(e.face,-R,-R,R*2,R*2);
+  if(e.type==='mid'){
+    const cy=-R*1.02,w=R*.55,h=R*.42;c.fillStyle='#ffc21f';c.strokeStyle='#2b2350';c.lineWidth=strokeW(R,.05);
+    c.beginPath();c.moveTo(-w,cy);c.lineTo(-w,cy-h*.6);c.lineTo(-w*.45,cy-h*.25);c.lineTo(0,cy-h);c.lineTo(w*.45,cy-h*.25);c.lineTo(w,cy-h*.6);c.lineTo(w,cy);c.closePath();c.fill();c.stroke();
+    // HP バー
+    const bw=R*1.6,by=R*1.28;c.fillStyle='rgba(20,14,60,.75)';c.fillRect(-bw/2-2,by-2,bw+4,R*.16+4);
+    c.fillStyle='#ff4d6d';c.fillRect(-bw/2,by,bw*Math.max(0,e.hp/e.maxHp),R*.16);
+  }
   c.strokeStyle='rgba(255,255,255,.85)';c.lineWidth=strokeW(R,.045);c.beginPath();c.arc(0,0,R,0,TAU);c.stroke();
   if(e.type==='tank'&&e.hp>1)drawHelmet(c,R);
   if(e.type==='tank'&&e.hp<=1){c.fillStyle='#fff';c.strokeStyle='#d9c3a3';c.lineWidth=strokeW(R,.03);c.save();c.rotate(-.5);c.fillRect(-R*.15,-R*1.0,R*.3,R*.5);c.strokeRect(-R*.15,-R*1.0,R*.3,R*.5);c.restore();}
@@ -1388,7 +1459,10 @@ function renderStages(){
     el.onclick=()=>{if(!unlocked){toast('まえ の ステージ を クリア してね');return;}openReady(i);};
     list.appendChild(el);
   });
-  $('#faceHint').textContent=faces.length?'とうろく した かお：'+faces.length+'こ':'かお を とうろく すると、その かお が てき に なるよ（いまは オリジナル の かお）';
+  $('#faceHint').textContent=faces.length?'とうろく した かお：'+faces.length+'こ（ボス と ちゅうボス に でるよ）':'かお を とうろく すると、その かお が ボス に なるよ（いまは オリジナル の ボス）';
+  const DN={easy:'てき が ゆっくり。たま も すくない。はじめて の ひと に',normal:'しょうがくせい むけ の ちょうど いい むずかしさ',
+    hard:'てき が はやく なって、たま も ふえるよ',extreme:'おとな も ほんき！ はやい・おおい・ねらい も きびしい'};
+  $('#diffNote').textContent=DN[save.settings.diff]||'';
 }
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 $$('#diffSeg button').forEach(b=>b.onclick=()=>{save.settings.diff=b.dataset.d;persist();renderStages();});
@@ -1397,9 +1471,18 @@ $$('#diffSeg button').forEach(b=>b.onclick=()=>{save.settings.diff=b.dataset.d;p
 function openReady(i){
   G.stageIdx=i;const S=STAGES[i],D=D_();
   $('#rdStage').textContent='ステージ '+(i+1);$('#rdName').textContent='「'+S.name+'」';
-  const nm=Math.max(4,S.norma+D.norma),tm=S.time+D.time;
+  const nm=normaFor(i),tm=S.time+D.time;
+  // この ステージ の ボス の かお を きめる（ステージ して が あれば それ、なければ おまかせ から）
+  const assigned=faces.filter(f=>f.stage===i+1),free=faces.filter(f=>!f.stage);
+  const pool=assigned.length?assigned:(free.length?free:faces);
+  const bf=pool.length?pick(pool):null;G.bossFaceId=bf?bf.id:null;
+  ensureBuiltin();
+  $('#rdBoss').innerHTML='<img alt=""><div><small>この ステージ の ボス</small><b></b><small></small></div>';
+  $('#rdBoss img').src=bf?bf.data:builtinBoss.toDataURL();
+  $('#rdBoss b').textContent=BOSSNAMES[S.boss];
+  $('#rdBoss small:last-child').textContent=faces.length?'ちゅうボス '+(S.mids||0)+'かい も でるよ':'かお を とうろく すると ボス の かお に なるよ';
   const ms=[(save.settings.gyro?'スマホ を うごかして':'がめん を ゆび で なぞって')+'、まんなか の <b>ねらい（⊕）</b> を てき に あわせて <b>「うつ」ボタン</b>！（おしっぱなし で れんしゃ）',
-    'てき を <b>'+nm+'ひき</b> たおす と ボス「'+BOSSNAMES[S.boss]+'」が でる。<b>'+tm+'びょう</b> いない に やっつけよう！',
+    'てき を <b>'+nm+'ひき</b> たおす と ボス が でる。<b>'+tm+'びょう</b> いない に やっつけよう！',
     'むらさき の トゲトゲ だま も うって けそう。あたる と じかん が へっちゃう',
     'とけい を うつ と じかん が ふえる。ほし で スーパーショット！'];
   if(S.guards)ms.push('ボス の まわり の あおい たま を こわす と バリア が きえるよ');
@@ -1407,8 +1490,8 @@ function openReady(i){
   $('#rdMission').innerHTML=ms.map(m=>'<li>'+m+'</li>').join('');
   ensureBuiltin();
   const box=$('#rdEnemies');box.innerHTML='';
-  [...new Set(S.types)].forEach((t,k)=>{const d=document.createElement('div');const cv=document.createElement('canvas');cv.width=cv.height=144;
-    const c=cv.getContext('2d');c.scale(2,2);drawEnemy(c,{type:t,t:.3,seed:0,scale:1,hp:ETYPES[t].hp,face:builtinFaces[k%6],flash:0},36,40,20);
+  [...new Set(S.types)].forEach(t=>{const d=document.createElement('div');const cv=document.createElement('canvas');cv.width=cv.height=144;
+    const c=cv.getContext('2d');c.scale(2,2);drawEnemy(c,{type:t,t:.3,seed:0,scale:1,hp:ETYPES[t].hp,face:builtinFaces[ETYPES[t].faces[0]],flash:0},36,40,20);
     d.appendChild(cv);const s=document.createElement('span');s.textContent=ETYPES[t].name;d.appendChild(s);box.appendChild(d);});
   $('#readyNote').textContent=save.settings.camera==='none'?'カメラ：なし（バーチャル の へや）':'「スタート」を おす と カメラ と うごき の きょか を きかれる よ。「きょか」を おしてね';
   $('#goBtn').disabled=false;
@@ -1486,12 +1569,15 @@ $('#resetRec').onclick=async()=>{closeModal('#settings');const r=await dialog({t
    ========================================================= */
 function renderFaces(){
   const grid=$('#faceGrid');grid.innerHTML='';
-  if(!faces.length){grid.innerHTML='<div class="emptyFaces">まだ かお が ないよ。<br>したの ボタン から しゃしん を えらんでね！<br>（かお が ない とき は オリジナル の かお で あそべるよ）</div>';}
+  if(!faces.length){grid.innerHTML='<div class="emptyFaces">まだ かお が ないよ。<br>したの ボタン から しゃしん を えらんでね！<br>（かお が ない とき は オリジナル の ボス で あそべるよ）</div>';}
   faces.forEach(f=>{
-    const card=document.createElement('div');card.className='faceCard'+(f.boss?' boss':'');
-    card.innerHTML=(f.boss?'<div class="crownMark">👑</div>':'')+'<img alt=""><div class="fbtns"><button class="crownBtn">👑 ボス</button><button class="delBtn">けす</button></div>';
+    const st=f.stage||0;
+    const card=document.createElement('div');card.className='faceCard'+(st?' boss':'');
+    card.innerHTML=(st?'<div class="crownMark">👑</div>':'')+'<img alt=""><select aria-label="どの ボス に する？"><option value="0">おまかせ</option>'+
+      STAGES.map((S,i)=>'<option value="'+(i+1)+'">ステージ'+(i+1)+' ボス</option>').join('')+'</select><div class="fbtns"><button class="delBtn">けす</button></div>';
     card.querySelector('img').src=f.data;
-    card.querySelector('.crownBtn').onclick=()=>{f.boss=!f.boss;persistFaces();renderFaces();};
+    const sel=card.querySelector('select');sel.value=String(st);
+    sel.onchange=()=>{f.stage=+sel.value;persistFaces();renderFaces();};
     card.querySelector('.delBtn').onclick=async()=>{const r=await dialog({title:'この かお を けす？',buttons:[{label:'やめる',value:false},{label:'けす',value:true,cls:'pink'}]});
       if(r.value){faces=faces.filter(x=>x.id!==f.id);faceCache.delete(f.id);persistFaces();renderFaces();}};
     grid.appendChild(card);
@@ -1506,7 +1592,7 @@ $('#fileIn').onchange=async e=>{
     const img=await fileToCanvas(file).catch(()=>null);
     if(!img){toast('しゃしん を よみこめなかったよ');continue;}
     const data=await cropFlow(img);
-    if(data){faces.push({id:uid(),data,boss:false});persistFaces();renderFaces();}
+    if(data){faces.push({id:uid(),data,stage:0});persistFaces();renderFaces();}
   }
 };
 function fileToCanvas(file){
